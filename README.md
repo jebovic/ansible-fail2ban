@@ -1,6 +1,8 @@
 Fail2ban
 =========
 
+[![Build Status](https://travis-ci.org/jebovic/ansible-fail2ban.svg?branch=master)](https://travis-ci.org/jebovic/ansible-fail2ban)
+
 Install and configure fail2ban, you can add your jails with yaml list variables
 
 Role Variables
