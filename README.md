@@ -1,7 +1,7 @@
 Fail2ban
 =========
 
-[![Build Status](https://travis-ci.org/jebovic/ansible-fail2ban.svg?branch=master)](https://travis-ci.org/jebovic/ansible-fail2ban)
+[![Build Status](https://travis-ci.org/jebovic/ansible-fail2ban.svg?branch=master)](https://travis-ci.org/jebovic/ansible-fail2ban) [![Ansible Galaxy](https://img.shields.io/badge/galaxy-jebovic.fail2ban-blue.svg?style=flat)](https://galaxy.ansible.com/jebovic/fail2ban)
 
 Install and configure fail2ban, you can add your jails with yaml list variables
 
