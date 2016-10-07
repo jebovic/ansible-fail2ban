@@ -22,6 +22,16 @@
     - jail.local
   notify: restart fail2ban
 
+- name: ensure default log files exist (for default jails)
+  file:
+    name: "{{ item }}"
+    state: present
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    -  /var/log/auth.log
+
 - name: service start
   service:
     name:  "{{ item }}"
