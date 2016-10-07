@@ -35,9 +35,9 @@ script:
     && (echo 'Idempotence test: pass' && exit 0)
     || (echo 'Idempotence test: fail' && exit 1)
   # test role tasks
-  - docker exec --tty "$(cat ${container_id})" env TERM=xterm systemctl --no-pager status fail2ban
-  - docker exec --tty "$(cat ${container_id})" env TERM=xterm systemctl --no-pager stop fail2ban
-  - docker exec --tty "$(cat ${container_id})" env TERM=xterm systemctl --no-pager start fail2ban
+  - docker exec --tty "$(cat ${container_id})" env TERM=xterm service fail2ban status
+  - docker exec --tty "$(cat ${container_id})" env TERM=xterm service fail2ban stop
+  - docker exec --tty "$(cat ${container_id})" env TERM=xterm service fail2ban start
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
