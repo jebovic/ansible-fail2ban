@@ -24,13 +24,14 @@
 
 - name: ensure default log files exist (for default jails)
   file:
-    name: "{{ item }}"
+    path: "{{ item }}"
     state: touch
     owner: root
     group: root
     mode: 0644
   with_items:
     -  /var/log/auth.log
+  changed_when: false
 
 - name: service start
   service:
