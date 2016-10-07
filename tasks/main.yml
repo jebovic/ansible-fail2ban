@@ -25,7 +25,7 @@
 - name: ensure default log files exist (for default jails)
   file:
     name: "{{ item }}"
-    state: present
+    state: file
     owner: root
     group: root
     mode: 0644
