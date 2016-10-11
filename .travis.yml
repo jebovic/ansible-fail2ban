@@ -35,9 +35,12 @@ script:
     && (echo 'Idempotence test: pass' && exit 0)
     || (echo 'Idempotence test: fail' && exit 1)
   # test role tasks
-  - docker exec --tty "$(cat ${container_id})" env TERM=xterm service fail2ban status
-  - docker exec --tty "$(cat ${container_id})" env TERM=xterm service fail2ban stop
-  - docker exec --tty "$(cat ${container_id})" env TERM=xterm service fail2ban start
+  - docker exec "$(cat ${container_id})" env TERM=xterm service fail2ban status
+  - docker exec "$(cat ${container_id})" env TERM=xterm service fail2ban stop
+  - docker exec "$(cat ${container_id})" env TERM=xterm service fail2ban start
+  - docker exec "$(cat ${container_id})" env TERM=xterm fail2ban-client version
+  - docker exec "$(cat ${container_id})" env TERM=xterm fail2ban-client ping
+  - docker exec "$(cat ${container_id})" env TERM=xterm fail2ban-client status
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
