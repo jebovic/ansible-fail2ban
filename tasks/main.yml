@@ -21,6 +21,7 @@
     - fail2ban.local
     - jail.local
   notify: restart fail2ban
+  tags: fail2ban_config
 
 - name: ensure default log files exist (for default jails)
   file:

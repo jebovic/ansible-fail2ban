@@ -8,7 +8,7 @@ Install and configure fail2ban, you can add your jails with yaml list variables
 Role Variables
 --------------
 
-```
+```yaml
 # fail2ban basic configuration
 fail2ban_root_path: /etc/fail2ban
 fail2ban_loglevel: 3
@@ -29,11 +29,16 @@ fail2ban_jails:
 Example Playbook
 ----------------
 
+```yaml
+- hosts: servers
+  roles:
+     - { role: jebovic.fail2ban }
 ```
-    - hosts: servers
-      roles:
-         - { role: jebovic.fail2ban }
-```
+
+Tags
+----
+
+* fail2ban_config : only update config and restart service
 
 License
 -------
