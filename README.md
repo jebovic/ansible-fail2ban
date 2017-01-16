@@ -7,6 +7,15 @@ Install and configure fail2ban, you can add your jails with yaml list variables
 
 This role is a part of my [OPS project](https://github.com/jebovic/ops), follow this link to see it in action. OPS provides a lot of stuff, like a vagrant file for development VMs, playbooks for roles orchestration, inventory files, examples for roles configuration, ansible configuration file, and many more.
 
+Compatibility
+-------------
+
+Tested and approved on :
+
+* Debian jessie (8+)
+* Ubuntu Trusty (14.04 LTS)
+* Ubuntu Xenial (16.04 LTS)
+
 Role Variables
 --------------
 
@@ -18,14 +27,33 @@ fail2ban_logtarget: /var/log/fail2ban.log
 fail2ban_socket: /var/run/fail2ban/fail2ban.sock
 fail2ban_pidfile: /var/run/fail2ban/fail2ban.pid
 
-# fail2ban custom jails, do not forget to add DEFAULT jail from defaults/main.yml
+# fail2ban jail configurations
 fail2ban_jails:
-  ssh:
-    enabled:    true
-    port:       ssh
-    filter:     sshd
-    logpath:    /var/log/auth.log
-    maxretry:   6
+  DEFAULT:
+    ignoreip: 127.0.0.1/8
+    ignorecommand:
+    bantime : 600
+    findtime: 600
+    maxretry: 3
+    backend: auto
+    usedns: warn
+    destemail: root@localhost
+    sendername: Fail2Ban
+    sender:     fail2ban@localhost
+    banaction:  iptables-multiport
+    mta:        sendmail
+    protocol:   tcp
+    chain:      INPUT
+    action_:    |
+                %(banaction)s[name=%(__name__)s, port="%(port)s", protocol="%(protocol)s", chain="%(chain)s"]
+    action_mw:  |
+                %(banaction)s[name=%(__name__)s, port="%(port)s", protocol="%(protocol)s", chain="%(chain)s"]
+                %(mta)s-whois[name=%(__name__)s, dest="%(destemail)s", protocol="%(protocol)s", chain="%(chain)s", sendername="%(sendername)s"]
+    action_mwl: |
+                %(banaction)s[name=%(__name__)s, port="%(port)s", protocol="%(protocol)s", chain="%(chain)s"]
+                %(mta)s-whois-lines[name=%(__name__)s, dest="%(destemail)s", logpath=%(logpath)s, chain="%(chain)s", sendername="%(sendername)s"]
+    action:     |
+                %(action_)s
 ```
 
 Example Playbook
@@ -35,6 +63,46 @@ Example Playbook
 - hosts: servers
   roles:
      - { role: jebovic.fail2ban }
+```
+
+Example : config
+----------------
+
+```yaml
+# fail2ban custom jails
+fail2ban_jails:
+  DEFAULT:
+    ignoreip: 127.0.0.1/8
+    ignorecommand:
+    bantime : 600
+    findtime: 600
+    maxretry: 3
+    backend: auto
+    usedns: warn
+    destemail: root@localhost
+    sendername: Fail2Ban
+    sender:     fail2ban@localhost
+    banaction:  iptables-multiport
+    mta:        sendmail
+    protocol:   tcp
+    chain:      INPUT
+    action_:    |
+                %(banaction)s[name=%(__name__)s, port="%(port)s", protocol="%(protocol)s", chain="%(chain)s"]
+    action_mw:  |
+                %(banaction)s[name=%(__name__)s, port="%(port)s", protocol="%(protocol)s", chain="%(chain)s"]
+                %(mta)s-whois[name=%(__name__)s, dest="%(destemail)s", protocol="%(protocol)s", chain="%(chain)s", sendername="%(sendername)s"]
+    action_mwl: |
+                %(banaction)s[name=%(__name__)s, port="%(port)s", protocol="%(protocol)s", chain="%(chain)s"]
+                %(mta)s-whois-lines[name=%(__name__)s, dest="%(destemail)s", logpath=%(logpath)s, chain="%(chain)s", sendername="%(sendername)s"]
+    action:     |
+                %(action_)s
+  ssh:
+    enabled:    true
+    port:       ssh
+    filter:     sshd
+    logpath:    /var/log/auth.log
+    maxretry:   6
+
 ```
 
 Tags
