@@ -39,20 +39,20 @@ fail2ban_jails:
     usedns: warn
     destemail: root@localhost
     sendername: Fail2Ban
-    sender:     fail2ban@localhost
-    banaction:  iptables-multiport
-    mta:        sendmail
-    protocol:   tcp
-    chain:      INPUT
-    action_:    |
+    sender: fail2ban@localhost
+    banaction: iptables-multiport
+    mta: sendmail
+    protocol: tcp
+    chain: INPUT
+    action_: |
                 %(banaction)s[name=%(__name__)s, port="%(port)s", protocol="%(protocol)s", chain="%(chain)s"]
-    action_mw:  |
+    action_mw: |
                 %(banaction)s[name=%(__name__)s, port="%(port)s", protocol="%(protocol)s", chain="%(chain)s"]
                 %(mta)s-whois[name=%(__name__)s, dest="%(destemail)s", protocol="%(protocol)s", chain="%(chain)s", sendername="%(sendername)s"]
     action_mwl: |
                 %(banaction)s[name=%(__name__)s, port="%(port)s", protocol="%(protocol)s", chain="%(chain)s"]
                 %(mta)s-whois-lines[name=%(__name__)s, dest="%(destemail)s", logpath=%(logpath)s, chain="%(chain)s", sendername="%(sendername)s"]
-    action:     |
+    action: |
                 %(action_)s
 ```
 
@@ -81,27 +81,27 @@ fail2ban_jails:
     usedns: warn
     destemail: root@localhost
     sendername: Fail2Ban
-    sender:     fail2ban@localhost
-    banaction:  iptables-multiport
-    mta:        sendmail
-    protocol:   tcp
-    chain:      INPUT
-    action_:    |
+    sender: fail2ban@localhost
+    banaction: iptables-multiport
+    mta: sendmail
+    protocol: tcp
+    chain: INPUT
+    action_: |
                 %(banaction)s[name=%(__name__)s, port="%(port)s", protocol="%(protocol)s", chain="%(chain)s"]
-    action_mw:  |
+    action_mw: |
                 %(banaction)s[name=%(__name__)s, port="%(port)s", protocol="%(protocol)s", chain="%(chain)s"]
                 %(mta)s-whois[name=%(__name__)s, dest="%(destemail)s", protocol="%(protocol)s", chain="%(chain)s", sendername="%(sendername)s"]
     action_mwl: |
                 %(banaction)s[name=%(__name__)s, port="%(port)s", protocol="%(protocol)s", chain="%(chain)s"]
                 %(mta)s-whois-lines[name=%(__name__)s, dest="%(destemail)s", logpath=%(logpath)s, chain="%(chain)s", sendername="%(sendername)s"]
-    action:     |
+    action: |
                 %(action_)s
   ssh:
-    enabled:    true
-    port:       ssh
-    filter:     sshd
-    logpath:    /var/log/auth.log
-    maxretry:   6
+    enabled: true
+    port: ssh
+    filter: sshd
+    logpath: /var/log/auth.log
+    maxretry: 6
 
 ```
 
